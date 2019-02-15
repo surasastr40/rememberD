@@ -75,7 +75,8 @@ public class AddFragment extends Fragment {
         Common.currentToken = FirebaseInstanceId.getInstance().getToken();
         mService = Common.getFCMClient();
 
-        MyFirebaseMessagingService myFirebaseMessagingService = new MyFirebaseMessagingService();
+        Log.d("MyToken",Common.currentToken);
+
         db = FirebaseFirestore.getInstance();
         user = new HashMap<>();
 
@@ -113,9 +114,13 @@ public class AddFragment extends Fragment {
                 String cplace = data_place.getText().toString();
                 String cactivity = data_activity.getText().toString();
 
+                String setTitle = " กิจกรรมของคุณ : วันที่ " + cdate + " เวลา " + ctime;
+                String setBody = cactivity;
+
                 send_data_to_firebase(cdate,ctime,cactivity,cplace);
 
-                SetNotification notification = new SetNotification(cplace,cactivity);
+                SetNotification notification = new SetNotification(setBody,setTitle,ctime);
+
                 final Sender sender = new Sender(notification,Common.currentToken);
                 mService.sendNotification(sender)
                         .enqueue(new Callback<MyResponse>() {
@@ -147,7 +152,7 @@ public class AddFragment extends Fragment {
         datePickerDialog = new DatePickerDialog(Objects.requireNonNull(getContext()), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
-                data_date.setText( year + "/" + (month+1) + "/" + day);
+                data_date.setText( day + "/" + (month+1) + "/" + year );
             }
         },Day,Month,Year);
 
