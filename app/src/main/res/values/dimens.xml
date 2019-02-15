@@ -1,0 +1,4 @@
+<resources>
+    <dimen name="margin_edt">10dp</dimen>
+    <dimen name="padding_edt">20dp</dimen>
+</resources>
